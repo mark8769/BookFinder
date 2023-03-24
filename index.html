@@ -5,38 +5,41 @@
     index.html
     Purpose: Page for bookfinder.
 -->
-<html>
+<html lang="en">
     <head>
         <title>BookFinder</title>
-        <script src="scripts.js"></script>
+        <!-- Javascript will load before html.
+            Dom Content loaded only cares about DOM. -->
+        <script src="scripts.js" defer></script>
         <link href="styles.css" type="text/css" rel="stylesheet">
         <meta charset="utf-8">
     </head>
     <body>
+        <h1>Make your own digital library of books!</h1>
         <div class="flex-container">
             <div id="sideNav">
             <!-- Fill in programatically -->
             </div>
             <!-- Information -->
-            <div>
+            <div id="mainContent">
                 <div>
                     <label for="title">Title</label>
-                    <input type="text" id="title" readonly></input>
+                    <input type="text" id="title" readonly>
                 </div>
                 <div>
                     <label for="author">Author</label>
-                    <input type="text" id="author" readonly></input>
+                    <input type="text" id="author" readonly>
                 </div>
                 <div>
                     <label for="copyrightDate">Copyright Date &#169;</label>
-                    <input type="text" id="copyrightDate" readonly></input>
+                    <input type="text" id="copyrightDate" readonly>
                 </div>
                 <div>
                     <label for="numberOfPages"># Of pages</label>
-                    <input type="numer" id="numberOfPages" readonly></input>
+                    <input type="number" id="numberOfPages" readonly>
                 </div>
                 <div>
-                    <img src="" id="bookCover">
+                    <img src="#" id="bookCover" alt="placeholder">
                 </div>
             </div>
             <!-- End of book information -->
