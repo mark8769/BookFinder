@@ -28,6 +28,29 @@ function addDefaultBooks(){
     requestor.open("GET", endpoint + "Animal Farm");
     requestor.send();
 }
+
+/*
+Only grab ISBN and image for api call and do not store locally.
+*/
+function requestHandler(){
+
+    if (this.status !== 200){
+        console.log("first time in here");
+        alert("No information available, taking you back to home page.");
+    }
+    // Title, author, copyright date, # of pages, cover image.
+    // Put these in a side navigation bar?
+    let json = JSON.parse(this.response);
+
+    let bookInfo = json.docs[0];
+    let isbn = bookInfo.isbn[0];
+    let title = bookInfo.title;
+    let author = bookInfo.author_name;
+    let numberOfPages = bookInfo.number_of_pages_median;
+    let copyrightDate = bookInfo.first_publish_year;
+    let bookCover = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
+}
+
 /*
 Add some books to local storage.
 */
@@ -56,29 +79,16 @@ function addDefaultBooks(){
         isbn: "9798787429817",
         image: "https://covers.openlibrary.org/b/isbn/9798787429817-M.jpg"
     }];
-
+    /* Don't use # inside the id param! (My mistake) */
+    let sideNav = document.getElementById("sideNav");
+    /* Store default books in local storage. */
     for (let book of books){
         localStorage.setItem(book.title, JSON.stringify(book));
+        let div = document.createElement("div");
+        div.id = book.title;
+        div.innerHTML = book.title;
+        sideNav.appendChild(div);
+        console.log(sideNav);
+        console.log(div);
     }
-}
-/*
-Only grab ISBN and image for api call and do not store locally.
-*/
-function requestHandler(){
-
-    if (this.status !== 200){
-        console.log("first time in here");
-        alert("No information available, taking you back to home page.");
-    }
-    // Title, author, copyright date, # of pages, cover image.
-    // Put these in a side navigation bar?
-    let json = JSON.parse(this.response);
-
-    let bookInfo = json.docs[0];
-    let isbn = bookInfo.isbn[0];
-    let title = bookInfo.title;
-    let author = bookInfo.author_name;
-    let numberOfPages = bookInfo.number_of_pages_median;
-    let copyrightDate = bookInfo.first_publish_year;
-    let bookCover = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
 }
