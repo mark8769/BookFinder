@@ -1,6 +1,10 @@
+h1{
+    border-bottom: 1px solid black;
+    text-align: center;
+}
 .flex-container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 label{
     display: inline-block;
@@ -9,4 +13,14 @@ label{
 input{
     margin-top: 7px;
     margin-bottom: 7px;
+}
+#sideNav{
+    width: 200px;
+}
+#sideNav > div{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#mainContent{
+    margin-left: 30px;
 }
