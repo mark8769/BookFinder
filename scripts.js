@@ -8,29 +8,30 @@ Purpose: BookFinder functions.
 window.addEventListener("DOMContentLoaded", main);
 
 function main(){
-
-    addDefaultBooks();
+    addDefaultBooksToStorage();
+    loadDefaultBook();
+    addEventListeners();
 }
+function addEventListeners(){
+    document.getElementById("edit").addEventListener("click", edit);
+}
+function edit(){
 
-function addDefaultBooks(){
-
+}
+function apiRequest(title){
     let requestor = new XMLHttpRequest();
     // https://openlibrary.org/dev/docs/api/search
     let endpoint = "https://openlibrary.org/search.json?title="
     // Handle request when response comes back.
     requestor.addEventListener("load", requestHandler);
-    // Add some default books to page.
-    let books = ["1984", "The Universal Computer", "Animal Farm"]
-    // requestor.open("GET", endpoint + "1984");
-    // requestor.send();
-    // requestor.open("GET", endpoint + "The universal computer");
-    // requestor.send();
-    requestor.open("GET", endpoint + "Animal Farm");
+    title = title.toLowerCase();
+    title = title.replace(" ", "+");
+    console.log(title);
+    requestor.open("GET", endpoint + title);
     requestor.send();
 }
-
 /*
-Only grab ISBN and image for api call and do not store locally.
+Add book to local storage.
 */
 function requestHandler(){
 
@@ -49,46 +50,77 @@ function requestHandler(){
     let numberOfPages = bookInfo.number_of_pages_median;
     let copyrightDate = bookInfo.first_publish_year;
     let bookCover = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
-}
 
-/*
-Add some books to local storage.
+    let book = {
+        title: title,
+        author: author,
+        isbn: isbn,
+        numberOfPages: numberOfPages,
+        copyrightDate: copyrightDate,
+        image: bookCover
+    }
+    /* Store new book in local storage */
+    localStorage.setItem(title, JSON.stringify(book));
+}
+/* 
+Display book information if available.
+If not search by title, get isbn, and get image.
 */
-function addDefaultBooks(){
+function showBookInfo() {
+    let title = this.id;
+    let localItem = localStorage.getItem(title);
+
+    if (localItem == null){
+        // get required information
+        apiRequest(title);
+        localItem = localStorage.getItem(title);
+    }
+
+    let json = JSON.parse(localItem);
+    fillInputs(json);
+    document.getElementById("edit").removeAttribute("disabled");
+}
+/*
+Function to fill in book inputs from parsed json in local storage.
+*/
+function fillInputs(json){
+    document.getElementById("title").value = json.title;
+    document.getElementById("author").value = json.author;
+    document.getElementById("isbn").value = json.isbn;
+    document.getElementById("numberOfPages").value = json.numberOfPages;
+    document.getElementById("copyrightDate").value = json.copyrightDate;
+    let img = document.getElementById("bookCover");
+    img.src = json.image;
+    img.setAttribute("alt", json.title);
+}
+/*
+Add some default books to local storage.
+*/
+function addDefaultBooksToStorage(){
     let books = [{
-        title: "Código civil (1984)",
-        author: "Author",
-        numberOfPages: "516",
-        copyrightDate: "1960",
-        isbn: "9972653056",
-        image: "https://covers.openlibrary.org/b/isbn/9972653056-M.jpg"
+        title: "Fahrenheit 451",
     },
     {
         title: "The Universal Computer",
-        author: "Martin Davis",
-        numberOfPages: "256",
-        copyrigthDate: "2000",
-        isbn: "9780393047851",
-        image: "https://covers.openlibrary.org/b/isbn/9780393047851-M.jpg"
     },
     {
-        title: "Animal Farm",
-        author: "George Orwell",
-        numberOfPages: "128",
-        copyrightDate: "1945",
-        isbn: "9798787429817",
-        image: "https://covers.openlibrary.org/b/isbn/9798787429817-M.jpg"
+        title: "American Psycho",
     }];
-    /* Don't use # inside the id param! (My mistake) */
     let sideNav = document.getElementById("sideNav");
     /* Store default books in local storage. */
     for (let book of books){
-        localStorage.setItem(book.title, JSON.stringify(book));
+        apiRequest(book.title);
         let div = document.createElement("div");
         div.id = book.title;
         div.innerHTML = book.title;
         sideNav.appendChild(div);
-        console.log(sideNav);
-        console.log(div);
+        div.addEventListener("click", showBookInfo);
     }
+}
+/*
+Default book to load when site is refreshed. 
+*/
+function loadDefaultBook(){
+    let book = JSON.parse(localStorage.getItem("Fahrenheit 451"));
+    fillInputs(book);
 }
