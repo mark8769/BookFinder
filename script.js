@@ -108,7 +108,22 @@ function edit(){
         let currTitle = document.getElementsByClassName("selected")[0].id;
         let storedObject = localStorage.getItem(currTitle);
         let storedJson = JSON.parse(storedObject);
+        // Update div name in navbar.
+        let currDiv = document.getElementsByClassName("selected")[0]
+        currDiv.id = title;
+        currDiv.innerHTML = title;
+
         // Store any new information.
+        if (storedJson.title != title){
+            // Remove old cover.
+            // Should a user be able to change the title?
+            console.log("title changed");
+            storedJson.coverURL = "";
+            let currDiv = document.getElementsByClassName("selected")[0];
+            console.log(currDiv);
+            // get new image if any.
+            currDiv.click();
+        }
         storedJson.title = title;
         storedJson.author = author;
         storedJson.copyrightDate = copyrightDate;
@@ -118,10 +133,6 @@ function edit(){
         localStorage.removeItem(currTitle);
         // Set new key value, along with any other changes.
         localStorage.setItem(title, JSON.stringify(storedJson));
-        // Update div name in navbar.
-        let currDiv = document.getElementsByClassName("selected")[0]
-        currDiv.id = title;
-        currDiv.innerHTML = title;
         let editButton = document.getElementById("edit");
         let addButton = document.getElementById("add");
         editButton.classList.toggle("button");
@@ -138,7 +149,7 @@ function apiRequest(){
     // Grab id value from div.
     let title = this.id;
     let storedObject = JSON.parse(localStorage.getItem(title));
-    if (storedObject !== null & storedObject.coverURL !== ""){
+    if (storedObject != null & storedObject.coverURL !== ""){
         console.log("Already have an image, if title changed consider adding a new entry.");
         return
     }
@@ -162,8 +173,15 @@ function requestHandler(){
         alert("Request failed");
     }
     let resp = JSON.parse(this.response);
-    let isbn = resp.docs[0].isbn[0];
-    let url = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
+    console.log(resp);
+    try{
+        isbn = resp.docs[0].isbn[0];
+        var url = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
+    }catch (TypeError){
+        console.log("No ISBN value for title");
+        // Maybe set to a default no image?
+        var url = "";
+    }
     // Get div id to access local storage by key.
     let key = document.getElementsByClassName("selected")[0].id;
     let json = JSON.parse(localStorage.getItem(key));
@@ -175,6 +193,7 @@ function requestHandler(){
 /* Show book info from local storage when div is clicked. */
 function showInfo(){
     // Get id(title) from clicked div.
+    console.log(showInfo);
     let storedObject = localStorage.getItem(this.id);
     // Divs to fill in info to.
     let divTitle = document.getElementById("title");
