@@ -10,7 +10,9 @@ body{
     height: 100vh;
     /* Remove margin from all sides, navigation links are flush to border when highlighted. And so borders lines are flush with borders. */
     margin: 0px 0px 0px 0px;
+    /* Make page into an SPA (Single Page Application) */
     overflow-y: hidden;
+    overflow-x: hidden;
 }
 html{
     height: 100vh;
@@ -19,20 +21,19 @@ html{
 Set height, and add a border to bottom of heading.
 */
 h1{
-    height: 8%;
+    height: 5%;
     border-bottom: 2px solid black;
     /* Fill entire h1 element, need to remove margin and add padding instead */
     margin-bottom: 0px;
     margin-top: 0px;
-    padding-top: 20px;
-    padding-bottom: 5px;
+    padding-top: 30px;
     text-align: center;
     background-color: black;
     color:white;
 }
 /* Container for navigation bar and main content */
 .flex-container{
-    height: 92%;
+    height: 95%;
     display: flex;
     flex-direction: row;
 }
