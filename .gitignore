@@ -1,0 +1,2 @@
+# Ignore mac dot files. (desktop placement).
+*.DS_Store
