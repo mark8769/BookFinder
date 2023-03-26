@@ -8,6 +8,9 @@ Set heights, so I can set other elements heights
 */
 body{
     height: 100vh;
+    /* Remove margin from all sides, navigation links are flush to border when highlighted. And so borders lines are flush with borders. */
+    margin: 0px 0px 0px 0px;
+    overflow-y: hidden;
 }
 html{
     height: 100vh;
@@ -17,9 +20,15 @@ Set height, and add a border to bottom of heading.
 */
 h1{
     height: 8%;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
+    /* Fill entire h1 element, need to remove margin and add padding instead */
     margin-bottom: 0px;
+    margin-top: 0px;
+    padding-top: 20px;
+    padding-bottom: 5px;
     text-align: center;
+    background-color: black;
+    color:white;
 }
 /* Container for navigation bar and main content */
 .flex-container{
@@ -48,7 +57,8 @@ move away from left border */
     padding-top: 30px;
     /* padding-left: 20px; */
     width: 200px;
-    border-right: 1px solid black;
+    border-right: 2px solid black;
+    background-image: url("bookshelf.png");
 }
 /*
 Add padding to make highlighted divs appear bigger.
@@ -68,11 +78,11 @@ Make entire height of remaining page. */
 }
 /* Button styling */
 button{
-    padding-left: 15px;
     cursor: pointer;
     padding: 10px;
     border-radius: 4px;
     border: none;
+    width: 80px;
 }
 /* Change button blue when in editing modes. */
 .button{
@@ -87,5 +97,10 @@ button{
 }
 /* Add some padding to buttons away from left border. */
 #buttonsDiv{
-    padding-left: 30px;
+    padding-left: 10px;
+}
+/* Class to add on in javascript */
+.img-size{
+    height: 550px;
+    width: 350px;
 }
