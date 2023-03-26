@@ -13,6 +13,8 @@ body{
     /* Make page into an SPA (Single Page Application) */
     overflow-y: hidden;
     overflow-x: hidden;
+    /* https://www.color-name.com/old-paper.color#color-palettes */
+    background-color: #F3E9DB
 }
 html{
     height: 100vh;
@@ -29,13 +31,16 @@ h1{
     padding-top: 30px;
     text-align: center;
     background-color: black;
-    color:white;
+    color:#F9F4ED;
 }
 /* Container for navigation bar and main content */
 .flex-container{
-    height: 95%;
+    height: 93%;
     display: flex;
     flex-direction: row;
+}
+footer{
+    height: 2%;
 }
 /* Change display to set size, make labels appear bigger and bolder */
 label{
@@ -58,6 +63,7 @@ input{
     -moz-border-radius:1px;
     /* webkit */
     -webkit-border-radius:1px;
+    background-color: #F9F4ED;
 }
 /* Make container full height of remaining window
 move away from left border */
@@ -98,6 +104,7 @@ button{
     border-radius: 4px;
     border: none;
     width: 90px;
+    background-color: #FCFAF6;
 }
 /* Change button blue when in editing modes. */
 .button{
